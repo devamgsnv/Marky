@@ -1,21 +1,62 @@
 package main
 
-import (
-  "fmt"
-)
-
-//TIP <p>To run your code, right-click the code and select <b>Run</b>.</p> <p>Alternatively, click
-// the <icon src="AllIcons.Actions.Execute"/> icon in the gutter and select the <b>Run</b> menu item from here.</p>
+import "fmt"
 
 func main() {
-  //TIP <p>Press <shortcut actionId="ShowIntentionActions"/> when your caret is at the underlined text
-  // to see how GoLand suggests fixing the warning.</p><p>Alternatively, if available, click the lightbulb to view possible fixes.</p>
-  s := "gopher"
-  fmt.Println("Hello and welcome, %s!", s)
+	bookmarks := map[string]string{}
+	fmt.Println("Hello, this is Marky.")
+Menu:
+	for {
+		option := getMenu()
+		switch option {
+		case 1:
+			printBookmarks(bookmarks)
+		case 2:
+			bookmarks = addBookmark(bookmarks)
+		case 3:
+			bookmarks = deleteBookmark(bookmarks)
+		case 4:
+			break Menu
+		}
+	}
+}
 
-  for i := 1; i <= 5; i++ {
-	//TIP <p>To start your debugging session, right-click your code in the editor and select the Debug option.</p> <p>We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-	// for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.</p>
-	fmt.Println("i =", 100/i)
-  }
+func getMenu() int {
+	var option int
+	fmt.Println("Select an option")
+	fmt.Println("1. View bookmarks")
+	fmt.Println("2. Add a bookmark")
+	fmt.Println("3. Delete a bookmark")
+	fmt.Println("4. Exit")
+	fmt.Scan(&option)
+	return option
+}
+
+func printBookmarks(bookmarks map[string]string) {
+	if len(bookmarks) == 0 {
+		fmt.Println("There are no bookmarks yet")
+	}
+	for key, value := range bookmarks {
+		fmt.Println(key, ": ", value)
+
+	}
+}
+
+func addBookmark(bookmarks map[string]string) map[string]string {
+	var newBookmarkKey string
+	var newBookmarkValue string
+	fmt.Print("Enter title: ")
+	fmt.Scan(&newBookmarkKey)
+	fmt.Print("Enter link: ")
+	fmt.Scan(&newBookmarkValue)
+	bookmarks[newBookmarkKey] = newBookmarkValue
+	return bookmarks
+}
+
+func deleteBookmark(bookmarks map[string]string) map[string]string {
+	var bookmarkKetToDelete string
+	fmt.Print("Enter title: ")
+	fmt.Scan(&bookmarkKetToDelete)
+	delete(bookmarks, bookmarkKetToDelete)
+	return bookmarks
 }
